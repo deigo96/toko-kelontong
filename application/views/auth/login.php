@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V1</title>
+	<title>Amanah | Login</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	<link rel="icon" type="image/png" href="<?= base_url('assets/img'); ?>/favicon.ico"/>
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/login/vendor/bootstrap/css/bootstrap.min.css') ?>">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css') ?>">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/login/vendor/animate/animate.css') ?>">
@@ -19,10 +19,10 @@
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
-					<img src="<?php echo base_url('assets/login/images/img-01.png') ?>" alt="IMG">
+					<img src="<?php echo base_url('assets/img/A-logos_black.png') ?>" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form" action="login/auth" method="POST">
+				<form class="login100-form validate-form" action="<?php echo base_url('login/auth') ?>" method="POST">
 					<span class="login100-form-title">
 						Member Login
 					</span>

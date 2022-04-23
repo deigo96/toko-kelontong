@@ -9,6 +9,11 @@ class M_register extends CI_Model {
 
     public function register($data)
     {
-        $this->db->insert('login', $data);
+        return $this->db->insert('login', $data);
+    }
+
+    public function getIdLog($nama)
+    {
+        return $this->db->get_where('login', array('nama' => $nama))->row();
     }
 }

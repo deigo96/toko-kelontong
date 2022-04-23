@@ -1,5 +1,5 @@
 <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a> | Modified by <a href="https://github.com/deigo96/job-portal/tree/master" target="_blank">Deigo Siahaan</a></strong>
+    <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a> | Modified by <a href="https://github.com/deigo96/job-portal/tree/master" target="_blank">Amanah</a></strong>
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 3.1.0-rc
     </div>
@@ -50,7 +50,6 @@
 <script src="<?php echo base_url()?>/assets/dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!-- <script src="<?php echo base_url()?>/assets/dist/js/pages/dashboard.js"></script> -->
-<script src="<?php echo base_url()?>/assets/js/adminCustom.js"></script>
 </body>
 </html>
 <script>

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?=$this->config->config["pageTitleAdmin"]?></title>
-  <link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets'); ?>/favicon.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets/img'); ?>/favicon.ico">
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -71,8 +71,8 @@
   <aside class="main-sidebar sidebar-light-primary elevation-4 overflow-hidden">
     <!-- Brand Logo -->
     <a href="<?php echo base_url('admin') ?>" class="brand-link navbar-light">
-      <img src="<?php echo base_url()?>/assets/assets/img/logo/horizontal_on_white_by_logaster.png" alt="AdminLTE Logo" class="brand-image elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">UBSI Portal</span>
+      <img src="<?php echo base_url()?>assets/img/A-logos_black.png" alt="AdminLTE Logo" class="brand-image elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light"><b>Amanah</b></span>
     </a>
     
     <!-- Sidebar -->

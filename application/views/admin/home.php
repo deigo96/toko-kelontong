@@ -16,7 +16,7 @@
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-list-ul"></i>
-                <p>Categories
+                <p>Kategori
                     <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
@@ -30,7 +30,7 @@
                 <li class="nav-item">
                     <a href="<?php echo site_url('admin/allCategories'); ?>" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Semua Categories</p>
+                    <p>Semua Kategori</p>
                     </a>
                 </li>
             </ul>
@@ -107,11 +107,11 @@
         <div class="row">
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">
-              <span class="info-box-icon bg-info elevation-1"><i class="fab fa-cuttlefish"></i></span>
+              <span class="info-box-icon bg-info elevation-1"><i class="fab fa-shopify"></i></span>
 
               <div class="info-box-content">
-                <a href="<?php echo base_url('admin/allCategories') ?>" class="users-list-name"><span class="info-box-text">Categories</span></a>
-                <span class="info-box-number">
+                <a href="<?php echo base_url('admin/allOrder') ?>" class="users-list-name"><span class="info-box-text">Pesanan</span></a>
+                <span class="info-box-number"><?php echo $totalPesanan ?>
                 </span>
               </div>
               <!-- /.info-box-content -->
@@ -124,8 +124,8 @@
               <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-city"></i></span>
 
               <div class="info-box-content">
-                <a href="<?php echo base_url('admin/allModels') ?>" class="users-list-name"><span class="info-box-text">Vacancies</span></a>
-                <span class="info-box-number"></span>
+                <a href="<?php echo base_url('admin/allProducts') ?>" class="users-list-name"><span class="info-box-text">Produk</span></a>
+                <span class="info-box-number"><?php echo $total_products;  ?></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -138,11 +138,11 @@
 
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-hand-holding-usd"></i></span>
 
               <div class="info-box-content">
-                <a href="<?php echo base_url('admin/allProducts') ?>" class="users-list-name"><span class="info-box-text">Job</span></a>
-                <span class="info-box-number"></span>
+                <a href="<?php echo base_url('admin/allOrder') ?>" class="users-list-name"><span class="info-box-text">Pemasukan</span></a>
+                <span class="info-box-number"><?php echo number_format($total, 0,',','.') ?></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -157,7 +157,8 @@
                 <a href="<?php echo base_url('admin/allUsers'); ?>" class="users-list-name">
                 <span class="info-box-text">Users</span>
                 </a>
-                <span class="info-box-number"></span>
+                <span class="info-box-number"><?php echo $total_users;  ?></span>
+
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -179,7 +180,7 @@
                 <!-- PRODUCT LIST -->
                 <div class="card">
                   <div class="card-header">
-                    <h3 class="card-title">Recently Added Jobs</h3>
+                    <h3 class="card-title">Produk terbaru</h3>
 
                     <div class="card-tools">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -193,12 +194,26 @@
                   <!-- /.card-header -->
                   <div class="card-body p-0">
                     <ul class="products-list product-list-in-card pl-0 pr-0 clearfix">
-                      
+                    <?php foreach ($getProduk as $produk): ?>
+                      <li class="item">
+                        <div class="product-img">
+                          <img src="<?= site_url('assets/upload/produk/'. $produk->pDp); ?>" alt="Product Image" class="img-size-50 img-thumbnail">
+                        </div>
+                        <div class="product-info">
+                          <a href="<?php echo site_url('admin/editProduct/'. $produk->pId) ?>" class="product-title"> <?= $produk->pName ?>
+                            <span class="badge badge-warning float-right">Rp <?= number_format($produk->harga, 0,',','.') ?></span></a>
+                          <span class="product-description">
+                            <?= $produk->cName ?>
+                          </span>
+                        </div>
+                      </li>
+                      <!-- /.item -->
+                    <?php endforeach; ?>  
                     </ul>
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer text-center">
-                    <a href="<?php echo base_url('admin/allModels') ?>" class="uppercase">View All Jobs</a>
+                    <a href="<?php echo base_url('admin/allProducts') ?>" class="uppercase">Lihat semua produk</a>
                   </div>
                   <!-- /.card-footer -->
                 </div>
@@ -209,7 +224,7 @@
                 <!-- PRODUCT LIST -->
                 <div class="card">
                   <div class="card-header">
-                    <h3 class="card-title">New Members</h3>
+                    <h3 class="card-title">Member Terbaru</h3>
 
                     <div class="card-tools">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -223,12 +238,31 @@
                   <!-- /.card-header -->
                   <div class="card-body p-0">
                     <ul class="products-list product-list-in-card pl-0 pr-0 clearfix">
-                    
+                    <?php foreach ($getUsers as $user): ?>
+                      <li class="item">
+                        <div class="product-img">
+                          <img src="<?php 
+                                      if($user->gambar != "")
+                                        echo base_url('assets/upload/user_profile/'. $user->gambar);
+                                      else
+                                        echo base_url('assets/upload/user_profile/male.png')
+                                    ?>" alt="Product Image" class="img-size-50 img-thumbnail">
+                        </div>
+                        <div class="product-info">
+                          <a href="<?php echo base_url('admin/userDetail/'.$user->id_login); ?>" class="product-title"> <?php echo $user->nama ?>
+                            <span class="badge badge-warning float-right"><?php echo $user->date ?></span></a>
+                          <span class="product-description">
+                            <?php echo $user->status == 1 ? '<span class="badge badge-success">Aktif</span>' : '<span class="badge badge-warning">Tidak Aktif</span>' ?>
+                          </span>
+                        </div>
+                      </li>
+                      <!-- /.item -->
+                    <?php endforeach; ?> 
                     </ul>
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer text-center">
-                    <a href="<?php echo base_url('admin/allUsers') ?>" class="uppercase">View All Members</a>
+                    <a href="<?php echo base_url('admin/allUsers') ?>" class="uppercase">Lihat semua member</a>
                   </div>
                   <!-- /.card-footer -->
                 </div>
@@ -239,7 +273,7 @@
             <!-- TABLE: LATEST ORDERS -->
             <div class="card">
               <div class="card-header border-transparent">
-                <h3 class="card-title">Latest Applied</h3>
+                <h3 class="card-title">Produk dipesan</h3>
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -256,15 +290,30 @@
                   <table class="table m-0">
                     <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Company</th>
-                      <th>Location</th>
-                      <th>Salary</th>
+                      <th>Id</th>
+                      <th>Nama</th>
+                      <th>Kategori</th>
+                      <th>Jumlah</th>
+                      <th>Harga</th>
                     </tr>
                     </thead>
                     <tbody>
-                      
+                      <?php
+                        foreach($getPesanan as $pesanan){
+                      ?>
+                        <tr>
+                          <td><?php echo $pesanan->kode_pesanan ?></td>
+                          <td><?php echo $pesanan->pName ?></td>
+                          <td><?php echo $pesanan->cName ?></td>
+                          <td><?php echo $pesanan->jumlah ?></td>
+                          <td>
+                            <?php 
+                              $totalJumlah = $pesanan->harga_produk * $pesanan->jumlah ;
+                              echo number_format($totalJumlah, 0,',','.')
+                            ?>  
+                          </td>
+                        </tr>
+                      <?php }?>
                     </tbody>
                   </table>
                 </div>
@@ -272,7 +321,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer clearfix">
-                <a href="<?php echo base_url('Admin/allApplications') ?> " class="btn btn-sm btn-primary float-right">View All</a>
+                <a href="<?php echo base_url('Admin/allOrder') ?> " class="btn btn-sm btn-primary float-right">Lihat semua</a>
               </div>
               <!-- /.card-footer -->
             </div>

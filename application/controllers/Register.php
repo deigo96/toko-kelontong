@@ -29,17 +29,14 @@ class Register extends CI_Controller {
         }else {
             $data['nama']       = $username;
             $data['email']      = $email;
-            $data['password']   = md5($password);
+            $data['password']   = hash('md5',$password);
             $data['type_id']    = 1;
+            $data['date']       = date('d-m-Y H:i:s');
             
             $this->m_register->register($data);
-            $this->session->set_userdata($data);
-            if($this->session->userdata('nama')){
-                echo "susse";
-            }
+            $this->session->set_flashdata('error', 'Silahkan login');
+            redirect('login');
         }
 
-        // $checkLogin = $this->m_register->checkLogin($username, $email);
-        // if($this->fo)
     }
 }

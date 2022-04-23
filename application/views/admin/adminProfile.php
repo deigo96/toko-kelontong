@@ -131,10 +131,10 @@
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle" src="<?php echo site_url('assets/images/profile_pictures/'). $profiles['aImage']; ?>" alt="User profile picture">
+                                <img class="profile-user-img img-fluid img-circle" src="<?php echo site_url('assets/upload/user_profile/female.png') ?>" alt="User profile picture">
                             </div>
-                            <h3 class="profile-username text-center"><?php echo $profiles['aName']; ?></h3>
-                            <p class="text-muted text-center"><?= $profiles['aEmail'] ?></p>
+                            <h3 class="profile-username text-center"><?php echo $profiles->nama; ?></h3>
+                            <p class="text-muted text-center"><?= $profiles->email ?></p>
                             <hr>
                             <!-- <strong><i class="fas fa-book mr-1"></i> Education</strong>
                             <p class="text-muted">
@@ -151,7 +151,7 @@
                             <hr>
                             <strong><i class="far fa-file-alt mr-1"></i> CV</strong>
                             <p class="text-muted"><a href="<?php echo site_url('assets/images/cv/'). $users[0]['cv'] ?>"><?= $users[0]['cv'] ?></a></p> -->
-                            <a href="<?php echo base_url('admin/changePassword/').$profiles['aId'] ?>" class="btn btn-primary btn-block"><b>Change Password</b></a>
+                            <a href="<?php echo base_url('admin/changePassword/').$profiles->id_login ?>" class="btn btn-primary btn-block"><b>Ganti Password</b></a>
                         </div>
                         <!-- /.card-body -->
                     </div>

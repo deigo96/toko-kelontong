@@ -109,12 +109,18 @@
                         <div class="card card-primary card-outline">
                             <div class="card-body box-profile">
                                 <div class="text-center">
-                                    <img class="profile-user-img img-fluid img-circle" src="" alt="User profile picture">
+                                    <img class="profile-user-img img-fluid img-circle" src="<?php
+                                        if($users[0]['gambar'] != "")
+                                            echo base_url('assets/upload/user_profile/').$users[0]['gambar'];
+                                        else{
+                                            echo base_url('assets/upload/user_profile/male.png');
+                                        }
+                                    ?>" alt="User profile picture">
                                 </div>
                                 <h3 class="profile-username text-center"><?php echo $users[0]['nama']; ?></h3>
                                 <p class="text-muted text-center"><?= $users[0]['email'] ?></p>
                                 <hr>
-                                <strong><i class="fas fa-book mr-1"></i> Education</strong>
+                                <!-- <strong><i class="fas fa-book mr-1"></i> Education</strong>
                                 <p class="text-muted">
                                     <?= $users[0]['email'] ?>
                                 </p>
@@ -122,13 +128,11 @@
                                 <strong><i class="fas fa-map-marker-alt mr-1"></i> Address</strong>
                                 <p class="text-muted"><?= $users[0]['email'] ?></p>
                                 <hr>
-                                <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
+                                <strong><i class="fas fa-pencil-alt mr-1"></i> Email</strong>
                                 <p class="text-muted">
                                     <?= $users[0]['email'] ?>
                                 </p>
-                                <hr>
-                                <strong><i class="far fa-file-alt mr-1"></i> CV</strong>
-                                <!-- <p class="text-muted"><a href="<?php echo site_url('assets/images/cv/'). $users[0]['cv'] ?>"><?= $users[0]['cv'] ?></a></p> -->
+                                <hr> -->
                                 <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#exampleModalCenter">
                                     DELETE
                                 </button>
@@ -151,7 +155,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Are you sure want to delete this data?</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Apakah anda yakin ingin menghapus user ini?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -160,8 +164,8 @@
                     ..
                 </div> -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <a href="<?= base_url('admin/deleteUser/').$users[0]['id_login'] ?>" class="btn btn-danger"><b>DELETE</b></a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <a href="<?= base_url('admin/deleteUser/').$users[0]['id_login'] ?>" class="btn btn-danger"><b>Hapus</b></a>
                 </div>
             </div>
         </div>

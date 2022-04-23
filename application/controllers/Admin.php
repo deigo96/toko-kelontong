@@ -16,12 +16,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $config['uri_segment'] = 3;
                 $this->load->library('pagination');
                 $this->pagination->initialize($config);
-
                 $page = ($this->uri->segment(3)) ? $this->uri->segment(3): 0;
-                $data['allUsers'] = $this->modAdmin->fetchAllUsersAdmin($config['per_page'], $page);
-                $data['links'] = $this->pagination->create_links();
-                $data['profiles'] = $this->modAdmin->checkProfile($this->session->userdata('adminLog'));
+
+                $data['allUsers']           = $this->modAdmin->fetchAllUsersAdmin($config['per_page'], $page);
+                $data['links']              = $this->pagination->create_links();
+                $data['total_products']     = $this->modAdmin->count_all_products();
+                // $data['total_vacancies']    = $this->modAdmin->count_all_vacancies();
+                $data['total_categories']   = $this->modAdmin->count_all_categories();
+                $data['total_users']        = $this->modAdmin->count_all_users();
+                $data['profiles']           = $this->modAdmin->checkProfile($this->session->userdata('adminLog'));
                 // $data['total_customers'] = $this->modAdmin->count_all_customers(); 
+                $data['getUsers']           = $this->modAdmin->fetchAllUsers($config['per_page'], $page);
+                $data['getProduk']          = $this->modAdmin->getProduk();
+                $data['totalPesanan']       = $this->modAdmin->totalPesanan();
+                $getPesanan                 = $this->modAdmin->getPesanan();
+                $totalPemasukan             = $this->modAdmin->getTotalPemasukan();
+                $total                      = 0;
+                foreach($totalPemasukan as $pemasukan){
+                    $totalMasuk = $pemasukan->harga_produk * $pemasukan->jumlah;
+                    $total += $totalMasuk;
+
+                    $data['total'] = $total;
+                }
+                // foreach($getPesanan as $pesanan){
+                //     $total = $pesanan->harga * $pesanan->jumlah;
+                //     var_dump($total);
+                //     $total += $total;
+                // }
+                // $data['total'] = $total;
+                $data['getPesanan']         = $getPesanan;
 
                 $this->load->view('admin/header', $data);                
                 $this->load->view('admin/home', $data);                
@@ -29,12 +52,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
             else{
                 $this->session->set_flashdata('error', 'Silahkan login terlebih dahulu');
-                    redirect('admin/login');
+                    redirect('login');
             }
         }
 
         public function login(){
-            $this->load->view('admin/login');
+            $this->load->view('auth/login');
         }
 
         public function checkAdmin(){
@@ -59,12 +82,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
                 else{
                     $this->session->set_flashdata('error', 'Email or Password is not matched');
-                    redirect('admin/login');
+                    redirect('login');
                 }
             }
             else{
                 $this->session->set_flashdata('error', 'Please check the required fields');
-                redirect('admin/login');
+                redirect('login');
             }
         }
 
@@ -75,20 +98,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $data['admin'] = $this->modAdmin->checkAdminById($aId);
                     if(count($data['admin']) == 1){
                         $data['profiles'] = $this->modAdmin->checkProfile($this->session->userdata('adminLog'));
-                        $this->load->view('admin/header', $data);
-                        $this->load->view('admin/adminProfile', $data);
-                        $this->load->view('admin/footer', $data);
+                        $this->load->view('admin/header', $data);                
+                        $this->load->view('admin/adminProfile', $data);                
+                        $this->load->view('admin/footer');    
                     }
                     else{
-                        setFlashData('alert-danger', 'Model not found', 'admin/allModels');
+                        setFlashData('alert-danger', 'Silahkan Login', 'login');
                     }
                 }
                 else {
-                    setFlashData('alert-danger', 'Something went wrong', 'admin/allModels');
+                    setFlashData('alert-danger', 'Silahkan Login', 'login');
                 }
             }
             else{
-                setFlashData('alert-danger', 'Please login first to edit your category', 'admin/login');
+                setFlashData('alert-danger', 'Silahkan Login', 'login');
 
             }
         }
@@ -105,15 +128,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         $this->load->view('admin/footer', $data);
                     }
                     else{
-                        setFlashData('alert-danger', 'Model not found', 'admin/allModels');
+                        setFlashData('alert-danger', 'Model not found', 'login');
                     }
                 }
                 else {
-                    setFlashData('alert-danger', 'Something went wrong', 'admin/allModels');
+                    setFlashData('alert-danger', 'Something went wrong', 'login');
                 }
             }
             else{
-                setFlashData('alert-danger', 'Please login first to edit your category', 'admin/login');
+                setFlashData('alert-danger', 'Silahkan login', 'login');
 
             }
         }
@@ -121,24 +144,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         public function updatePassword()
         {
             if(adminLog()) {
-                $data['aPassword'] = $this->input->post('newpass', true);
-                $adminId = $this->input->post('aId', true);
+                $data['password'] = $this->input->post('newpass', true);
+                $data['password'] = hash('md5', $data['password']);
+                $adminId = $this->session->userdata('adminLog');
 
                 $this->form_validation->set_rules('oldpass', 'old Password', 'callback_password_check');
-                $this->form_validation->set_rules('newpass', 'new password', 'required|min_length[6]',[
-                    'min_length' => 'The Password must contain at least 6 characters',
-                    'required' => 'Please check the required'
+                $this->form_validation->set_rules('newpass', 'new password', 'required|min_length[8]',[
+                    'min_length' => 'Password minimal 8 karakter',
+                    'required' => 'Semua kolom harus diisi'
                 ]);
                 $this->form_validation->set_rules('passconf', 'confirm password', 'required|matches[newpass]',[
-                    'matches' => 'Passwords does not match'
+                    'matches' => 'Password tidak sama'
                 ]);
 
                 if($this->form_validation->run() == true) {
-                    $aId = $this->session->userdata('aId');
                     $addData = $this->modAdmin->updatePass($data, $adminId);
                     if($addData) {
-                        $this->session->set_flashdata('error', 'Please Login to Continue');
-                        redirect('admin/login');
+                        $this->session->set_flashdata('error', 'Silahkan login');
+                        redirect('login');
                     }
                     else {
                         // setFlashData('alert-danger', 'Something went wrong', 'admin/adminProfile');
@@ -159,24 +182,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         public function password_check($oldpass)
         {
-            $aId = $this->session->userdata('aId');
+            $aId = $this->session->userdata('adminLog');
             $admin = $this->modAdmin->get_admin($aId);
-            if($admin->aPassword !== ($oldpass)) {
-                $this->form_validation->set_message('password_check', 'Old password does not match');
+            // $password = hash('md5', $admin->password);
+            if($admin->password != hash('md5', $oldpass)) {
+                // var_dump($password);
+                $this->form_validation->set_message('password_check', 'Password lama tidak sesuai');
                 return false;
             }
             return true;
         }
 
         public function logOut(){
-            if($this->session->userdata('aId')){
-                $this->session->set_userdata('aId');
-                $this->session->set_flashdata('error', 'You have successfully logged out');
-                redirect('admin/login');
+            if($this->session->userdata('adminLog')){
+                $this->session->set_userdata('adminLog');
+                $this->session->set_flashdata('error', 'Anda berhasil log out');
+                redirect('login');
             }
             else{
-                $this->session->set_flashdata('error', 'Please login now');
-                redirect('admin/login');
+                $this->session->set_flashdata('error', 'Silahkan Login');
+                redirect('login');
             }
         }
 
@@ -189,7 +214,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $this->load->view('admin/footer');
             }
             else{
-                setFlashData('alert-danger', 'Please login first to add your category', 'admin/login');
+                $this->session->set_flashdata('error', 'Silahkan Login');
+                redirect('login');
             }
         }
 
@@ -220,7 +246,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             }
             else{
-                setFlashData('alert-danger', 'Silahkan Login', 'admin/login');
+                $this->session->set_flashdata('error', 'Silahkan Login');
+                redirect('login');
             }
         }
 
@@ -246,7 +273,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $this->load->view('admin/footer', $data);
             }
             else{
-                setFlashData('alert-danger', 'Please login first to add your category', 'admin/login');
+                $this->session->set_flashdata('error', 'Silahkan Login');
+                redirect('login');
             }
         }
 
@@ -263,15 +291,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         $this->load->view('admin/footer', $data);
                     }
                     else{
-                        setFlashData('alert-danger', 'Category not found', 'admin/allCategories');
+                        setFlashData('alert-danger', 'Kategori tidak ditemukan', 'admin/allCategories');
                     }
                 }
                 else {
-                    setFlashData('alert-danger', 'Something went wrong', 'admin/allCategories');
+                    setFlashData('alert-danger', 'Gagal mengedit kategori', 'admin/allCategories');
                 }
             }
             else{
-                setFlashData('alert-danger', 'Please login first to edit your category', 'admin/login');
+                $this->session->set_flashdata('error', 'Silahkan Login');
+                redirect('login');
 
             }
         }
@@ -304,7 +333,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             }
             else {
-                setFlashData('alert-danger', 'Silahkan Login', 'admin/login');
+                $this->session->set_flashdata('error', 'Silahkan Login');
+                redirect('login');
             }
         }
 
@@ -336,7 +366,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $this->load->view('admin/footer', $data);
             }
             else{
-                setFlashData('alert-danger', 'Please login first to add your category', 'admin/login');
+                $this->session->set_flashdata('error', 'Silahkan Login');
+                redirect('login');
             }
         }
 
@@ -385,7 +416,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             }
             else{
-                setFlashData('alert-danger', 'Silahkan Login', 'admin/login');
+                $this->session->set_flashdata('error', 'Silahkan Login');
+                redirect('login');
             }
         }
 
@@ -410,7 +442,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $this->load->view('admin/footer', $data);
             }
             else{
-                setFlashData('alert-danger', 'Please login first to add your category', 'admin/login');
+                $this->session->set_flashdata('error', 'Silahkan Login');
+                redirect('login');
             }
         }
 
@@ -427,16 +460,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         $this->load->view('admin/footer', $data);
                     }
                     else{
-                        setFlashData('alert-danger', 'Product not found', 'admin/allProducts');
+                        setFlashData('alert-danger', 'Produk tidak ditemukan', 'admin/allProducts');
                     }
                 }
                 else {
-                    setFlashData('alert-danger', 'Something went wrong', 'admin/allProducts');
+                    setFlashData('alert-danger', 'Gagal mengedit produk', 'admin/allProducts');
                 }
             }
             else{
-                setFlashData('alert-danger', 'Please login first to edit your category', 'admin/login');
-
+                $this->session->set_flashdata('error', 'Silahkan Login');
+                redirect('login');
             }
         }
 
@@ -453,14 +486,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 if(!empty($data['pName']) && !empty($data['categoryId']) && !empty($data['harga']) && !empty($data['stok'])){
                     if(isset($_FILES['prodDp']) && is_uploaded_file($_FILES['prodDp']['tmp_name'])){
-                        $path = realpath(APPPATH.'../assets/images/products/');
+                        $path = realpath(APPPATH.'../assets/upload/produk/');
                         $config['upload_path'] = $path;
                         $config['max_size'] = 400;
                         $config['allowed_types'] = 'gif|png|jpg|jpeg';
                         $this->load->library('upload', $config);
                         if(!$this->upload->do_upload('prodDp')){
                             $error = $this->upload->display_errors();
-                            setFlashData('alert-danger', $error, 'admin/newProduct');
+                            setFlashData('alert-danger', $error, 'admin/allProduct');
                         }
                         else{
                             $fileName = $this->upload->data();
@@ -486,7 +519,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             }
             else{
-                setFlashData('alert-danger', 'Silahkan Login', 'admin/login');
+                $this->session->set_flashdata('error', 'Silahkan Login');
+                redirect('login');
             }
         }
 
@@ -502,190 +536,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 //     setFlashData('alert-danger', 'Gagal menghapus data', 'admin/allProducts');
             }
             else {
-                setFlashData('alert-danger', 'Please login first to edit your category', 'admin/login');
-            }
-        }
-
-        public function newModel()
-        {
-            if(adminLog()){
-                $data['profiles'] = $this->modAdmin->checkProfile($this->session->userdata('adminLog'));
-                $data['products'] = $this->modAdmin->getProducts();
-                $this->load->view('admin/header', $data);
-                $this->load->view('admin/model/newModel', $data);
-                $this->load->view('admin/footer', $data);
-            }
-            else{
-                setFlashData('alert-danger', 'Please login first to add your category', 'admin/login');
-            }
-        }
-
-        public function addModel()
-        {
-            if(adminLog()){
-                $data['mName'] = $this->input->post('modelName', true);
-                $data['mDescription'] = $this->input->post('md', true);
-                $data['location'] = $this->input->post('location', true);
-                $data['productId'] = $this->input->post('productId', true);
-                $data['price'] = $this->input->post('price', true);
-
-                if(!empty($data['mName']) && !empty($data['mDescription']) && !empty($data['productId'])){
-                    $path = realpath(APPPATH.'../assets/images/models/');
-                    $config['upload_path'] = $path;
-                    $config['max_size'] = 400;
-                    $config['allowed_types'] = 'gif|png|jpg|jpeg';
-                    $this->load->library('upload', $config);
-                    if(!$this->upload->do_upload('modelDp')){
-                        $error = $this->upload->display_errors();
-                        setFlashData('alert-danger', $error, 'admin/newModel');
-                    }
-                    else{
-                        $fileName = $this->upload->data();
-                        $data['mDp'] = $fileName['file_name'];
-                        $data['mStatus'] = 1;
-                        $data['mDate'] = date('Y-m-d H:i:s');
-                        $data['adminId'] = getAdminId();
-                    }
-                    $addData = $this->modAdmin->checkModel($data);
-                    if($addData->num_rows() < 0 ){
-                        setFlashData('alert-danger', 'The model already exist', 'admin/newModel');     
-                    }
-                    else{
-                        $addData = $this->modAdmin->addModel($data);
-                        if($addData){
-                            setFlashData('alert-success', 'You have successfully added your job', 'admin/newModel');
-                        }
-                        else{
-                            setFlashData('alert-danger', 'You cannot add model right now', 'admin/newModel');
-                        }
-                    }
-                }
-                else{
-                    setFlashData('alert-danger', 'Please check the required fields', 'admin/newModel');
-                }
-            }
-            else{
-                setFlashData('alert-danger', 'Please login first to add your model', 'admin/login');
-            }
-        }
-
-        public function allModels()
-        {
-            if(adminLog()){
-                $config['base_url'] = site_url('admin/allModels');
-                $totalRows = $this->modAdmin->getAllModels();
-                $config['total_rows'] = $totalRows;
-                $config['per_page'] = 10;
-                $config['uri_segment'] = 3;
-                $this->load->library('pagination');
-                $this->pagination->initialize($config);
-
-                $page = ($this->uri->segment(3)) ? $this->uri->segment(3): 0;
-                $data['allModels'] = $this->modAdmin->newFetchAllModels();
-                $data['profiles'] = $this->modAdmin->checkProfile($this->session->userdata('adminLog'));
-                $data['links'] = $this->pagination->create_links();
-
-                $this->load->view('admin/header', $data);
-                $this->load->view('admin/model/allModels', $data);
-                $this->load->view('admin/footer', $data);
-            }
-            else{
-                setFlashData('alert-danger', 'Please login first to add your Model', 'admin/login');
-            }
-        }
-
-        public function deleteModel()
-        {
-            if(adminLog()){
-                $mId = $this->uri->segment(3);
-                $this->modAdmin->deleteModel($mId);
-                setFlashData('alert-success', 'Successfully Deleted', 'admin/allModels');
-            }
-            else {
-                setFlashData('alert-danger', 'Please login first to edit your Model', 'admin/login');
-            }
-        }
-
-        public function editModel($mId)  
-        {   
-            if(adminLog()){
-                if(!empty($mId) && isset($mId)){
-                    $data['models'] = $this->modAdmin->checkModelById($mId);
-                    if(count($data['models']) == 1){
-                        $data['profiles'] = $this->modAdmin->checkProfile($this->session->userdata('adminLog'));
-                        $data['products'] = $this->modAdmin->getProducts();
-                        $this->load->view('admin/header', $data);
-                        $this->load->view('admin/model/editModel', $data);
-                        $this->load->view('admin/footer', $data);
-                    }
-                    else{
-                        setFlashData('alert-danger', 'Model not found', 'admin/allModels');
-                    }
-                }
-                else {
-                    setFlashData('alert-danger', 'Something went wrong', 'admin/allModels');
-                }
-            }
-            else{
-                setFlashData('alert-danger', 'Please login first to edit your category', 'admin/login');
-
-            }
-        }
-
-        public function updateModel()
-        {
-            if(adminLog()){
-                $data['mName'] = $this->input->post('modelName', true);
-                $data['mDescription'] = $this->input->post('md', true);
-                $data['location'] = $this->input->post('location', true);
-                $data['price'] = $this->input->post('price', true);
-                $data['productId'] = $this->input->post('productId', true);
-                $modelId = $this->input->post('mDi', true);
-                $oldImage = $this->input->post('oldImg', true);
-
-                if(!empty($data['mName']) && !empty($data['mDescription']) && !empty($data['productId'])){
-                    if(isset($_FILES['modelDp']) && is_uploaded_file($_FILES['modelDp']['tmp_name'])){
-                        $path = realpath(APPPATH.'../assets/images/models/');
-                        $config['upload_path'] = $path;
-                        $config['max_size'] = 400;
-                        $config['allowed_types'] = 'gif|png|jpg|jpeg';
-                        $this->load->library('upload', $config);
-                        if(!$this->upload->do_upload('modelDp')){
-                            $error = $this->upload->display_errors();
-                            setFlashData('alert-danger', $error, 'admin/newModel');
-                        }
-                        else{
-                            $fileName = $this->upload->data();
-                            $data['mDp'] = $fileName['file_name'];
-                            $data['mDate'] = date('Y-m-d H:i:s');
-                        }
-                    }
-
-                    $addData = $this->modAdmin->checkModel($data);
-                    if($addData->num_rows() == 0 ){
-                        setFlashData('alert-danger', 'The product already exist', 'admin/allModels');     
-                    }
-                    else{
-                        $addData = $this->modAdmin->updateModel($data, $modelId);var_dump($addData);
-                        if($addData){
-                            if(!empty($data['mDp']) && isset($data['mDp'])){
-                                if(file_exists($path.'/'.$oldImage)){
-                                    unlink($path.'/'.$oldImage);
-                                }
-                            }
-                            setFlashData('alert-success', 'You have successfully updated your model', 'admin/allModels');
-                        }
-                        else{
-                            setFlashData('alert-danger', 'You cannot update model right now', 'admin/allModels');
-                        }
-                    }
-                }
-                else{
-                    setFlashData('alert-danger', 'Please check the required fields', 'admin/allModels');
-                }
-            }
-            else{
-                setFlashData('alert-danger', 'Please login first to add your category', 'admin/login');
+                $this->session->set_flashdata('error', 'Silahkan Login');
+                redirect('login');
             }
         }
 
@@ -731,7 +583,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $this->load->view('admin/footer', $data);
             }
             else{
-                setFlashData('alert-danger', 'Please login first to add your Model', 'admin/login');
+                setFlashData('alert-danger', 'Silahkan Login', 'admin/login');
             }
         }
 
@@ -773,32 +625,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             }
             else {
-                setFlashData('alert-danger', 'Please login first to edit your Model', 'admin/login');
+                setFlashData('alert-danger', 'Silahkan Login', 'admin/login');
             }
         }
 
-        public function activity()
-        {
-            $data['profiles'] = $this->modAdmin->checkProfile($this->session->userdata('adminLog'));
-
-            $this->load->view('admin/invoice');
-        }   
-
-        public function invoice()
-        {
-            $data['invoice'] = $this->modAdmin->show_data();
-            $data['profiles'] = $this->modAdmin->checkProfile($this->session->userdata('adminLog'));
-
-            $this->load->view('admin/header', $data);
-            $this->load->view('admin/invoice', $data);
-            $this->load->view('admin/footer', $data);
-        }
-
-        public function allApplications()
+        public function allOrder()
         {
             if(adminLog()){
                 $config['base_url'] = site_url('admin/allUsers');
-                $totalRows = $this->modAdmin->getAllApplications();
+                $totalRows = $this->modAdmin->getAllOrders();
                 $config['total_rows'] = $totalRows;
                 $config['per_page'] = 10;
                 $config['uri_segment'] = 3;
@@ -826,62 +661,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $this->load->library('pagination');
                 $this->pagination->initialize($config);
 
-                $page = ($this->uri->segment(3)) ? $this->uri->segment(3): 0;
-                $data['allApplications'] = $this->modAdmin->fetchAllApplications($config['per_page'], $page);
-                $data['profiles'] = $this->modAdmin->checkProfile($this->session->userdata('adminLog'));
-                $data['links'] = $this->pagination->create_links();
+                $page               = ($this->uri->segment(3)) ? $this->uri->segment(3): 0;
+                $data['allOrders']  = $this->modAdmin->fetchAllOrders($config['per_page'], $page);
+                $data['profiles']   = $this->modAdmin->checkProfile($this->session->userdata('adminLog'));
+                $data['links']      = $this->pagination->create_links();
 
                 $this->load->view('admin/header', $data);
-                $this->load->view('admin/allApplications', $data);
+                $this->load->view('admin/allOrders', $data);
                 $this->load->view('admin/footer', $data);
             }
             else{
-                setFlashData('alert-danger', 'Please login first to add your Model', 'admin/login');
+                setFlashData('alert-danger', 'Silahkan Login', 'admin/login');
             }
         }
 
-        public function proccess($id)
-        {
-            if(adminLog()){
-                if(!empty($id) && isset($id)){
-                    $data['action'] = $this->modAdmin->getDataById($id);
-                    if(count($data['action']) == 1){
-                        $data['profiles'] = $this->modAdmin->checkProfile($this->session->userdata('adminLog'));
-                        $this->load->view('admin/header', $data);
-                        $this->load->view('admin/proccess', $data);
-                        $this->load->view('admin/footer', $data);
-                    }
-                    else{
-                        setFlashData('alert-danger', 'Model not found', 'admin/allModels');
-                    }
-                }
-                else {
-                    setFlashData('alert-danger', 'Something went wrong', 'admin/allModels');
-                }
-            }
-            else{
-                setFlashData('alert-danger', 'Please login first to edit your category', 'admin/login');
-            }
-        }
-        
-        public function actionProccess()
-        {
-            if(adminLog()) {
-                $id = $this->input->post('id');
-                if($this->input->post('accept') == 'ACCEPT'){
-                    $data['status'] = 3;
-                } elseif($this->input->post('reject') == 'REJECT') {
-                    $data['status'] = 2;
-                }
-
-                $action = $this->modAdmin->updateProccess($data, $id);
-                if($action) {
-                    setFlashData('alert-success', 'You have successfully updated your data', 'admin/allApplications');
-                } else {
-                    setFlashData('alert-danger', 'Something went wrong', 'admin/allApplications');
-                }
-            } else {
-                setFlashData('alert-danger', 'Please login first', 'admin/login');
-            }
-        }
     }

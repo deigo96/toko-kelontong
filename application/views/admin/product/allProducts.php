@@ -103,11 +103,11 @@
                                             <table class="table  text-center table-dark">
                                                 <thead>
                                                     <tr>
-                                                        <th>No</th>
+                                                        <!-- <th>No</th> -->
                                                         <th>Id</th>
                                                         <th>Produk</th>
                                                         <th>Harga</th>
-                                                        <th>Price</th>
+                                                        <th>Gambar</th>
                                                         <!-- <th>Company</th> -->
                                                         <th></th>
                                                     </tr>
@@ -119,9 +119,9 @@
                                                         $i++;
                                                     ?>
                                                         <tr>
-                                                            <td>
+                                                            <!-- <td>
                                                                 <?php echo $i ?>
-                                                            </td>
+                                                            </td> -->
                                                             <td>
                                                                 <?php echo $product->pId ?>
                                                             </td>
@@ -132,7 +132,7 @@
                                                                 <?php echo $product->harga ?>
                                                             </td>
                                                             <td>
-                                                                <?php echo $product->stok ?>
+                                                                <img width="100px" src="<?php echo base_url('assets/upload/produk/').$product->pDp ?>" alt="">
                                                             </td>
                                                             <td class="text-right py-0 align-middle">
                                                                 <div class="btn-group btn-group-sm">
