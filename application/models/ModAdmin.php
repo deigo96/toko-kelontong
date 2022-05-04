@@ -130,81 +130,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 ->get();
         }
 
-        public function checkModel($data)
-        {
-            return $this->db->get_where('models', array(
-                'mName' => $data['mName'],
-                'productId' => $data['productId']
-            ));
-        }
-
-        public function addModel($data)
-        {
-            return $this->db->insert('models', $data);
-            // var_dump($data);
-            // $data['adminId'] = $this->session->userdata('aId');
-            // $dataJson   = json_encode($data);
-            // $query      = "tambah-model";
-            // $method     = "POST";
-            // $data       = $dataJson;
-            // var_dump($data);
-            // $result     = $this->auth->cekAPI($query, $method, $data);var_dump($result);
-            // return $result;
-        }
-
-        public function getAllModels()
-        {
-            return $this->db->get_where('models', array('mStatus'=>1))->num_rows();
-        }
-
-        public function fetchAllModels($limit, $start)
-        {
-            $this->db->limit($limit, $start);
-            $this->db->order_by('mId', 'desc');
-            $query = $this->db->get_where('models', array('mStatus'=>1));
-            if($query->num_rows() > 0){
-                foreach ($query->result() as $row) {
-                    $data[] = $row;
-                }
-                return $data;
-            }
-            return false;
-        }
-
-        public function deleteModel($mId)
-        {
-            $this->db->where('mId', $mId);
-            return $this->db->delete('models');
-        }
-
         public function deleteUser($uId)
         {
             $this->db->where('id_login', $uId);
             return $this->db->delete('login');
-        }
-
-        public function checkModelById($mId)
-        {
-            return $this->db->get_where('models', array('mId'=>$mId))->result_array();
-        }
-
-        public function updateModel($data, $modelId)
-        {
-            $this->db->where('mId', $modelId);
-            return $this->db->update('models', $data);
-            // $id = $this->input->post('mDi', true);
-            // $dataJson   = json_encode($data);
-            // $query      = "ubah-model/$id";
-            // $method     = "PATCH";
-            // $data       = $dataJson;
-            // // var_dump($data);
-            // $result     = $this->auth->cekAPI($query, $method, $data);
-            // var_dump($result);
-        }
-
-        public function getModels()
-        {
-            return $this->db->get_where('models', array('mStatus' => 1));
         }
 
         public function count_all_users()
@@ -216,23 +145,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         {
             return $this->db->get('products')->num_rows();
         }
-        public function count_all_vacancies()
-        {
-            return $this->db->get('models')->num_rows();
-        }
 
         public function count_all_categories()
         {
             return $this->db->get('categories')->num_rows();
-        }
-
-        public function job_categories()
-        {
-            $this->db->select('*');
-            $this->db->from('products');
-            $this->db->join('models', 'productId=pId');
-            $query = $this->db->get();
-            return $query->num_rows();
         }
 
         public function checkUserById($uId)
@@ -261,45 +177,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $this->db->order_by('id_login', 'desc');
             $this->db->limit('100');
             $query = $this->db->get_where('login', array('type_id'=>1));
-            if($query->num_rows() > 0){
-                foreach ($query->result() as $row) {
-                    $data[] = $row;
-                }
-                return $data;
-            }
-            return false;
-        }
-
-        public function fetchAllApplications($limit, $start)
-        {
-            $aId = $this->session->userdata('aId');
-            $query = $this->db->query("SELECT invoices.id,
-                                        invoices.status,
-                                        invoices.userId,
-                                        invoices.modelId,
-                                        models.*,
-                                        products.pName,
-                                        users.*
-                                    FROM
-                                        invoices
-                                    LEFT JOIN
-                                        models
-                                    ON
-                                        invoices.modelId = models.mId
-                                    LEFT JOIN
-                                        users
-                                    ON
-                                        invoices.userId = users.uId
-                                    LEFT JOIN
-                                        products
-                                    ON
-                                        models.productId = products.pId
-                                    WHERE 
-                                        invoices.adminId = '$aId'
-                                    ORDER BY 
-                                        invoices.id
-                                        DESC
-                                    ");
             if($query->num_rows() > 0){
                 foreach ($query->result() as $row) {
                     $data[] = $row;

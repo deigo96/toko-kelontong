@@ -61,6 +61,7 @@ class Login extends CI_Controller {
 	public function logOut(){
 		if($this->session->userdata('idLogin')){
 			$this->session->set_userdata('idLogin');
+			$this->cart->destroy();
 			$this->session->set_flashdata('error', 'Anda berhasil log out');
 			redirect('login');
 		}
