@@ -25,10 +25,10 @@
                         </div>
                         <div class="hero__search__phone">
                             <div class="hero__search__phone__icon">
-                                <i class="fa fa-phone"></i>
+                                <a href="https://api.whatsapp.com/send?phone=083872124419" target="blank" style="color: #7fad39;"><i class="fa fa-phone"></i></a>
                             </div>
                             <div class="hero__search__phone__text">
-                                <h5>0821331241</h5>
+                                <h5>083872124419</h5>
                                 <span>Buka 24 Jam</span>
                             </div>
                         </div>
@@ -65,14 +65,14 @@
                     <div class="contact__widget">
                         <span class="icon_phone"></span>
                         <h4>Telepon/WA</h4>
-                        <p>0821123123</p>
+                        <p>083872124419</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                     <div class="contact__widget">
                         <span class="icon_pin_alt"></span>
                         <h4>Alamat</h4>
-                        <p>Jl.cikarang raya No.1 Cikarang Selatan</p>
+                        <p>Pasar Randudongkal kecamatan Randudongkal kabupaten Pemalang</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
@@ -97,15 +97,15 @@
     <!-- Map Begin -->
     <div class="map">
         <iframe
-            src="https://www.google.com/maps?q=lippo cikarang&output=embed"
+            src="https://www.google.com/maps?q=pasar randudongkal&output=embed"
             height="500" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
         <div class="map-inside">
             <i class="icon_pin"></i>
             <div class="inside-widget">
-                <h4>Cikarang</h4>
+                <h4>Pasar Randudongkal</h4>
                 <ul>
-                    <li>Telepon: 082142141</li>
-                    <li>Alamat: Jl.Cikarang baru no.1 Cikarang Selatan</li>
+                    <li>Telepon: 083872124419</li>
+                    <li>Alamat: Pasar Randudongkal kecamatan Randudongkal kabupaten Pemalang</li>
                 </ul>
             </div>
         </div>

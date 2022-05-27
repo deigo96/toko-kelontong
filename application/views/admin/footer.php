@@ -54,12 +54,13 @@
 </html>
 <script>
   $(document).ready(function() {
-    var table = $('#example').DataTable( {
-        rowReorder: true,
-        columnDefs: [
-            { orderable: true, className: 'reorder', targets: [1,2,3] },
-            { orderable: false, targets: '_all' }
-        ]
-    } );
-} );
+    $('#example').DataTable();
+    // var table = $('#examples1').DataTable( {
+    //     rowReorder: true,
+    //     columnDefs: [
+    //         { orderable: true, className: 'reorder', targets: [1,2,3] },
+    //         { orderable: false, targets: '_all' }
+    //     ]
+    // } );
+  } );
 </script>

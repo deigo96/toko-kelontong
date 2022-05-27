@@ -8,8 +8,8 @@
                             <a href="./index.html"><img src="<?php echo base_url('assets/img/amanah-logo.png') ?>" alt=""></a>
                         </div>
                         <ul>
-                            <li>Alamat: Jl.Cikarang baru no.1 Cikarang Selatan</li>
-                            <li>Telepon: 082142141</li>
+                            <li>Alamat: Pasar Randudongkal kecamatan Randudongkal kabupaten Pemalang</li>
+                            <li>Telepon: 083872124419</li>
                             <li>Email: amanah@gmail.com</li>
                         </ul>
                     </div>

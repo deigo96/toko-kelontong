@@ -25,10 +25,10 @@
                         </div>
                         <div class="hero__search__phone">
                             <div class="hero__search__phone__icon">
-                                <i class="fa fa-phone"></i>
+                                <a href="https://api.whatsapp.com/send?phone=083872124419" target="blank" style="color: #7fad39;"><i class="fa fa-phone"></i></a>
                             </div>
                             <div class="hero__search__phone__text">
-                                <h5>+62 821214124</h5>
+                                <h5>083872124419</h5>
                                 <span>Buka 24 Jam</span>
                             </div>
                         </div>

@@ -57,8 +57,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item menu-open">
-                    <a href="#" class="nav-link active">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>User
                             <i class="right fas fa-angle-left"></i>
@@ -104,7 +104,7 @@
                     <div class="col-12">
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h2 class="card-title">User</h2>
+                                <h2 class="card-title">Pesanan</h2>
                             </div>
                             <?php if($this->session->flashdata('class')): ?>
                             <div class="alert <?php echo $this->session->flashdata('class') ?> alert-dimissible" role="alert">
@@ -168,7 +168,7 @@
                                                 <?php endforeach; ?>
                                             </table>         
                                             <?php else: ?>
-                                                Users not available
+                                                Pesanan tidak ditemukan
                                         <?php endif; ?>
                                     </div>
                                 </div>

@@ -8,9 +8,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 ->result_array(); 
         }
 
-        public function checkAdminById()
+        public function checkAdminById($id)
         {
-            return $this->db->get_where('admin', array('aId'=>1))->result_array();
+            return $this->db->get_where('login', array('id_login'=>$id))->result_array();
         }
 
         public function checkProfile($where=null)
@@ -188,7 +188,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         public function getAllUsers()
         {
-            return $this->db->get_where('users', array('aId'=>1))->num_rows();
+            return $this->db->get_where('login', array('id_login'=>1))->num_rows();
         }
 
         public function getProduk()
@@ -202,9 +202,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             return $query->result();
         }
 
-        public function get_admin($aId)
+        public function get_admin($id)
         {
-            $this->db->where('id_login', $aId);
+            $this->db->where('id_login', $id);
             $query = $this->db->get('login');
             return $query->row();
         }

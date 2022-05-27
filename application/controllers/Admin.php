@@ -91,11 +91,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         }
 
-        public function adminProfile($aId)
+        public function adminProfile($id)
         {
             if(adminLog()){
-                if(!empty($aId) && isset($aId)){
-                    $data['admin'] = $this->modAdmin->checkAdminById($aId);
+                if(!empty($id) && isset($id)){
+                    $data['admin'] = $this->modAdmin->checkAdminById($id);
                     if(count($data['admin']) == 1){
                         $data['profiles'] = $this->modAdmin->checkProfile($this->session->userdata('adminLog'));
                         $this->load->view('admin/header', $data);                
