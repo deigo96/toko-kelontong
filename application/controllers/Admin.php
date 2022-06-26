@@ -675,4 +675,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         }
 
+        public function detail_pesanan($kode)
+        {
+            if(adminLog()){
+                $data['profiles']   = $this->modAdmin->checkProfile($this->session->userdata('adminLog'));
+                $data['pesanan']    = $this->modAdmin->getPesananByKode($kode);
+                $this->load->view('admin/header', $data);
+                $this->load->view('admin/detailPesanan', $data);
+                $this->load->view('admin/footer', $data);
+            }
+        }
+
+        public function cetak_pesanan($kode)
+        {
+            if(adminLog()){
+                $data['profiles']   = $this->modAdmin->checkProfile($this->session->userdata('adminLog'));
+                $data['pesanan']    = $this->modAdmin->getPesananByKode($kode);
+                // $this->load->view('admin/header', $data);
+                $this->load->view('admin/cetakPesanan', $data);
+                // $this->load->view('admin/footer', $data);
+            }
+        }
+
+        public function verifikasi($kode)
+        {
+            if(adminLog()){
+                $kode = $this->input->post('kode');
+                $data['status'] = 1;
+                $data['tanggal_verifikasi'] = date('d-m-Y H:i');
+                $verifikasi = $this->modAdmin->verifikasi($kode, $data);
+                if($verifikasi)
+                    echo "true";
+                else 
+                    echo "";
+            }
+        }
+
     }

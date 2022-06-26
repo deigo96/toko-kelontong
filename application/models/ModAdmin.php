@@ -271,4 +271,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
             return false;
         }
+
+        public function getPesananByKode($kode)
+        {
+            $query = $this->db->query("SELECT products.pName, products.pDp,products.harga as harga_produk, categories.cName, pesanan.* FROM pesanan
+                                        LEFT JOIN products ON pesanan.id_produk = products.pId
+                                        LEFT JOIN categories ON products.categoryId = categories.cId
+                                            WHERE pesanan.kode_pesanan = '$kode'");
+            return $query->result();
+        }
+
+        public function verifikasi($kode, $data)
+        {
+            $this->db->where('kode_pesanan', $kode);
+            return $this->db->update('pesanan', $data);
+        }
     }

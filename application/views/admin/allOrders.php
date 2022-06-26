@@ -119,13 +119,13 @@
                                             <table id="example" class="table table-bordered table-dark" style="width:100%;">
                                                 <thead class="thead-dark">
                                                     <tr>
-                                                        <th>Id</th>
+                                                        <th>Kode Pesanan</th>
                                                         <th>Nama</th>
                                                         <th>Kategori</th>
                                                         <th>Jumlah</th>
                                                         <th>Harga</th>
                                                         <th>Gambar</th>
-                                                        <th></th>
+                                                        <th>Status</th>
                                                     </tr>
                                                 </thead>
                                                 <?php 
@@ -153,9 +153,15 @@
                                                         <td>
                                                             <img src="<?php echo base_url('assets/upload/produk/'). $order->pDp ?>" alt="" class="img-thumbnail img-size-50 mx-auto d-block">
                                                         </td>
-                                                        <td class="text-right py-0 align-middle">
+                                                        <td class="text-center py-0 align-middle">
                                                             <div class="btn-group btn-group-sm">
-                                                                <span class="btn btn-success btn-sm"><i class="fas fa-check"></i> Berhasil</span>
+                                                                <?php if($order->status == 0) { ?>
+                                                                    <span class="btn btn-warning btn-sm" style="cursor: default;"><i class="fas fa-globe"></i> Menunggu Verifikasi</span>
+                                                                    <a href="<?php echo base_url('admin/detail_pesanan/').$order->kode_pesanan ?>"><span class="btn btn-primary btn-sm"><i class="fas fa-eye"></i> Lihat Detail</span></a>
+                                                                <?php }else{ ?>
+                                                                    <span class="btn btn-success btn-sm"><i class="fas fa-check"></i> Berhasil</span>
+                                                                    <a href="<?php echo base_url('admin/detail_pesanan/').$order->kode_pesanan ?>"><span class="btn btn-primary btn-sm"><i class="fas fa-eye"></i> Lihat Detail</span></a>
+                                                                <?php } ?>
                                                                 <!-- <a href="<?php echo base_url('admin/userDetail/'. $user->id_login); ?>" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</a> -->
                                                             </div> 
                                                         </td>
