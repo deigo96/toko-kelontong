@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 23, 2022 at 06:49 AM
+-- Generation Time: Jul 06, 2022 at 12:32 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 5.6.40
 
@@ -99,25 +99,6 @@ INSERT INTO `login` (`id_login`, `nama`, `email`, `password`, `status`, `type_id
 -- --------------------------------------------------------
 
 --
--- Table structure for table `models`
---
-
-CREATE TABLE `models` (
-  `mId` int(11) NOT NULL,
-  `mName` varchar(200) NOT NULL,
-  `price` float NOT NULL,
-  `location` varchar(255) DEFAULT NULL,
-  `mDate` datetime NOT NULL,
-  `mStatus` int(11) NOT NULL,
-  `productId` int(11) NOT NULL,
-  `adminId` int(11) NOT NULL,
-  `mDp` varchar(200) NOT NULL,
-  `mDescription` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `pesanan`
 --
 
@@ -137,27 +118,40 @@ CREATE TABLE `pesanan` (
   `tanggalBeli` varchar(100) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
   `harga` bigint(20) NOT NULL,
-  `kode_pesanan` int(11) NOT NULL
+  `kode_pesanan` int(11) NOT NULL,
+  `bukti_upload` varchar(100) NOT NULL,
+  `tanggal_verifikasi` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pesanan`
 --
 
-INSERT INTO `pesanan` (`id_pesanan`, `id_user`, `id_produk`, `jumlah`, `namaDepan`, `namaBelakang`, `alamat`, `kota`, `kabupaten`, `noTelp`, `email`, `catatan`, `tanggalBeli`, `status`, `harga`, `kode_pesanan`) VALUES
-(26, 2, '39', '2', 'deigo', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'admin@gmail.com', '', '21-04-2022 07:31:13', 0, 135500, 1113),
-(27, 2, '38', '1', 'deigo', 'jonathan siahaan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', '', '21-04-2022 07:43:56', 0, 135500, 1114),
-(28, 2, '39', '2', 'deigo', 'jonathan siahaan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', '', '21-04-2022 07:43:56', 0, 135500, 1114),
-(29, 2, '38', '1', 'deigo joanthan', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', '', '21-04-2022 07:45:27', 0, 135500, 1115),
-(30, 2, '39', '2', 'deigo joanthan', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', '', '21-04-2022 07:45:27', 0, 135500, 1115),
-(31, 2, '38', '7', 'deigo siahana', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'brengsek975@gmail.com', '', '21-04-2022 07:46:29', 0, 193500, 1116),
-(32, 2, '39', '2', 'deigo siahana', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'brengsek975@gmail.com', '', '21-04-2022 07:46:29', 0, 193500, 1116),
-(33, 2, '41', '1', 'deigo siahana', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'brengsek975@gmail.com', '', '21-04-2022 07:46:29', 0, 193500, 1116),
-(34, 2, '40', '3', 'jamila', 'sukanti', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'telkomsel@gmail.com', 'asal samapay', '22-04-2022 08:47:55', 0, 91500, 1117),
-(35, 2, '41', '2', 'jamila', 'sukanti', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'telkomsel@gmail.com', 'asal samapay', '22-04-2022 08:47:55', 0, 91500, 1117),
-(36, 2, '38', '1', 'jamila', 'sukanti', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'telkomsel@gmail.com', 'asal samapay', '22-04-2022 08:47:55', 0, 91500, 1117),
-(37, 11, '41', '3', 'joker', 'siahaan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', 'joker', '22-04-2022 09:05:05', 0, 205000, 1118),
-(38, 11, '39', '2', 'joker', 'siahaan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', 'joker', '22-04-2022 09:05:05', 0, 205000, 1118);
+INSERT INTO `pesanan` (`id_pesanan`, `id_user`, `id_produk`, `jumlah`, `namaDepan`, `namaBelakang`, `alamat`, `kota`, `kabupaten`, `noTelp`, `email`, `catatan`, `tanggalBeli`, `status`, `harga`, `kode_pesanan`, `bukti_upload`, `tanggal_verifikasi`) VALUES
+(26, 2, '39', '2', 'deigo', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'admin@gmail.com', '', '21-04-2022 07:31:13', 1, 135500, 1113, '', '26-06-2022 19:05'),
+(27, 2, '38', '1', 'deigo', 'jonathan siahaan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', '', '21-04-2022 07:43:56', 0, 135500, 1114, '', ''),
+(28, 2, '39', '2', 'deigo', 'jonathan siahaan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', '', '21-04-2022 07:43:56', 0, 135500, 1114, '', ''),
+(29, 2, '38', '1', 'deigo joanthan', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', '', '21-04-2022 07:45:27', 0, 135500, 1115, '', ''),
+(30, 2, '39', '2', 'deigo joanthan', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', '', '21-04-2022 07:45:27', 0, 135500, 1115, '', ''),
+(31, 2, '38', '7', 'deigo siahana', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'brengsek975@gmail.com', '', '21-04-2022 07:46:29', 1, 193500, 1116, '', '26-06-2022 18:56'),
+(32, 2, '39', '2', 'deigo siahana', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'brengsek975@gmail.com', '', '21-04-2022 07:46:29', 1, 193500, 1116, '', '26-06-2022 18:56'),
+(33, 2, '41', '1', 'deigo siahana', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'brengsek975@gmail.com', '', '21-04-2022 07:46:29', 1, 193500, 1116, '', '26-06-2022 18:56'),
+(34, 2, '40', '3', 'jamila', 'sukanti', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'telkomsel@gmail.com', 'asal samapay', '22-04-2022 08:47:55', 0, 91500, 1117, '', ''),
+(35, 2, '41', '2', 'jamila', 'sukanti', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'telkomsel@gmail.com', 'asal samapay', '22-04-2022 08:47:55', 0, 91500, 1117, '', ''),
+(36, 2, '38', '1', 'jamila', 'sukanti', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'telkomsel@gmail.com', 'asal samapay', '22-04-2022 08:47:55', 0, 91500, 1117, '', ''),
+(37, 11, '41', '3', 'joker', 'siahaan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', 'joker', '22-04-2022 09:05:05', 0, 205000, 1118, '', ''),
+(38, 11, '39', '2', 'joker', 'siahaan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', 'joker', '22-04-2022 09:05:05', 0, 205000, 1118, '', ''),
+(39, 2, '38', '1', 'deigo', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', 'dqwd', '27-05-2022 03:57:01', 0, 41500, 1119, '', ''),
+(40, 2, '40', '3', 'deigo', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', 'dqwd', '27-05-2022 03:57:01', 0, 41500, 1119, '', ''),
+(41, 2, '41', '3', 'deigo', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', 'asdas', '06-07-2022 04:21:54', 0, 123000, 1120, '', ''),
+(42, 2, '40', '4', 'deigo', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', 'asdas', '06-07-2022 04:21:54', 0, 123000, 1120, '', ''),
+(43, 2, '41', '1', 'deigo', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'admin@gmail.com', 'sad', '06-07-2022 04:27:47', 0, 25000, 1121, '', ''),
+(44, 2, '40', '1', 'deigo', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'brengsek975@gmail.com', 'j', '06-07-2022 04:33:34', 0, 12000, 1122, '', ''),
+(45, 2, '41', '1', 'deigo', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'deigosiahaan@gmail.com', 'asal samapay', '06-07-2022 04:36:20', 0, 25000, 1123, '', ''),
+(46, 2, '41', '1', 'deigo', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'admdin@gmail.com', 'asd', '06-07-2022 04:41:16', 0, 25000, 1124, '16523896598051.jpg', ''),
+(47, 2, '39', '3', 'deigo', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'telkomsel@gmail.com', 'dqwd', '06-07-2022 07:56:17', 1, 195000, 1125, '12.PNG', '06-07-2022 12:31'),
+(48, 2, '41', '1', 'deigo', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'brengsek975@gmail.com', 'aaa', '06-07-2022 12:03:36', 1, 49000, 1126, 'Capture.PNG', '06-07-2022 12:30'),
+(49, 2, '40', '2', 'deigo', 'jonathan', 'perum ksb blok j13 no.20 cibarusah', 'kabupaten Bekasi', 'kabupaten Bekasi', '082135277397', 'brengsek975@gmail.com', 'aaa', '06-07-2022 12:03:36', 1, 49000, 1126, 'Capture.PNG', '06-07-2022 12:30');
 
 -- --------------------------------------------------------
 
@@ -187,6 +181,50 @@ INSERT INTO `products` (`pId`, `pName`, `pStatus`, `pDate`, `categoryId`, `admin
 (40, 'Pisang 100gr', 1, '2022-04-19 11:52:49', 46, 1, 'product-2.jpg', 12000, 10),
 (41, 'Anggur', 1, '2022-04-19 11:53:31', 46, 1, 'product-4.jpg', 25000, 10);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rekening`
+--
+
+CREATE TABLE `rekening` (
+  `id_rekening` int(11) NOT NULL,
+  `nama_bank` varchar(20) NOT NULL,
+  `nomor_rekening` varchar(30) NOT NULL,
+  `atas_nama` varchar(50) NOT NULL,
+  `LOGO` varchar(100) NOT NULL,
+  `isActive` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `rekening`
+--
+
+INSERT INTO `rekening` (`id_rekening`, `nama_bank`, `nomor_rekening`, `atas_nama`, `LOGO`, `isActive`) VALUES
+(1, 'BRI', '12803812312', 'AISYATUN NAFISAH', 'assets/img/BRI.png', 1),
+(2, 'BCA', '523245235', 'AISYATUN NAFISAH', 'assets/img/BCA.png', 1),
+(3, 'MANDIRI', '722626246', 'AISYATUN NAFISAH', 'assets/img/MANDIRI.png', 1),
+(4, 'BNI', '2124124124', 'AISYATUN NAFISAH', 'assets/img/BNI.png', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tipe`
+--
+
+CREATE TABLE `tipe` (
+  `tipe_id` int(11) NOT NULL,
+  `nama` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tipe`
+--
+
+INSERT INTO `tipe` (`tipe_id`, `nama`) VALUES
+(1, 'admin'),
+(2, 'user');
+
 --
 -- Indexes for dumped tables
 --
@@ -211,14 +249,6 @@ ALTER TABLE `login`
   ADD PRIMARY KEY (`id_login`);
 
 --
--- Indexes for table `models`
---
-ALTER TABLE `models`
-  ADD PRIMARY KEY (`mId`),
-  ADD KEY `adminId` (`adminId`),
-  ADD KEY `models_products_pId_fk` (`productId`);
-
---
 -- Indexes for table `pesanan`
 --
 ALTER TABLE `pesanan`
@@ -232,6 +262,18 @@ ALTER TABLE `products`
   ADD KEY `adminId` (`adminId`),
   ADD KEY `adminId_2` (`adminId`),
   ADD KEY `categoryId` (`categoryId`);
+
+--
+-- Indexes for table `rekening`
+--
+ALTER TABLE `rekening`
+  ADD PRIMARY KEY (`id_rekening`);
+
+--
+-- Indexes for table `tipe`
+--
+ALTER TABLE `tipe`
+  ADD PRIMARY KEY (`tipe_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -256,22 +298,28 @@ ALTER TABLE `login`
   MODIFY `id_login` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT for table `models`
---
-ALTER TABLE `models`
-  MODIFY `mId` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `pesanan`
 --
 ALTER TABLE `pesanan`
-  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
   MODIFY `pId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
+--
+-- AUTO_INCREMENT for table `rekening`
+--
+ALTER TABLE `rekening`
+  MODIFY `id_rekening` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `tipe`
+--
+ALTER TABLE `tipe`
+  MODIFY `tipe_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -282,13 +330,6 @@ ALTER TABLE `products`
 --
 ALTER TABLE `categories`
   ADD CONSTRAINT `categories_admin_aId_fk` FOREIGN KEY (`adminId`) REFERENCES `admin` (`aId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `models`
---
-ALTER TABLE `models`
-  ADD CONSTRAINT `models_admin_aId_fk` FOREIGN KEY (`adminId`) REFERENCES `admin` (`aId`),
-  ADD CONSTRAINT `models_products_pId_fk` FOREIGN KEY (`productId`) REFERENCES `products` (`pId`);
 
 --
 -- Constraints for table `products`

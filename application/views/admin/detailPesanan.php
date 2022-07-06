@@ -71,6 +71,14 @@
                 </li>
             </ul>
         </li>
+        <li class="nav-item">
+            <a href="<?php echo base_url('admin/allOrder'); ?>" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    Pesanan
+                </p>
+            </a>
+        </li>
     </ul>
 </nav>
 <!-- /.sidebar-menu -->
@@ -116,13 +124,14 @@
                                         $no++;
                                         $total = $pesanan->harga_produk * $pesanan->jumlah;
                                         $subTotal += $total;
-                                        $penerima = $pesanan->namaDepan.' '.$pesanan->namaBelakang;
+                                        $penerima = $pesanan->namaDepan . ' ' . $pesanan->namaBelakang;
                                         $alamat = $pesanan->alamat;
-                                        $alamat2 = $pesanan->kota.', '.$pesanan->kabupaten;
+                                        $alamat2 = $pesanan->kota . ', ' . $pesanan->kabupaten;
                                         $telepon = $pesanan->noTelp;
                                         $email = $pesanan->email;
                                         $status = $pesanan->status;
                                         $kode = $pesanan->kode_pesanan;
+                                        $bukti = $pesanan->bukti_upload;
                                     ?>
                                         <tr>
                                             <td><?php echo $no ?>.</td>
@@ -144,6 +153,18 @@
                 </div>
                 <div class="card card-primary">
                     <div class="card-header">
+                        <h3 class="card-title">Bukti Pembayaran</h3>
+                    </div>
+                    <?php 
+                        if(!empty($bukti)) {
+                            echo '<img class="card-img-top" src="'.base_url('assets/upload/bukti_pembayaran/').$bukti.'" alt="Card image cap">';
+                        } else {
+                            echo '<span class="text-center font-weight-bold">Bukti Pembayaran Belum di Upload</span>';
+                        } 
+                    ?>
+                </div>
+                <div class="card card-primary">
+                    <div class="card-header">
                         <h3 class="card-title">Detail Pengiriman</h3>
                     </div>
                     <!-- /.card-header -->
@@ -158,7 +179,7 @@
 
                         <strong><i class="fas fa-map-marker-alt mr-1"></i> Alamat</strong>
 
-                        <p class="text-muted"><?php echo $alamat.'<br>'.$alamat2 ?></p>
+                        <p class="text-muted"><?php echo $alamat . '<br>' . $alamat2 ?></p>
 
                         <hr>
 
@@ -173,9 +194,9 @@
                         <p class="text-muted"><?php echo $email ?></p>
 
                         <hr>
-                        <?php if($status == 0) { ?>
+                        <?php if ($status == 0) { ?>
                             <button class="button btn btn-success btn-block" onclick="verifikasi('<?php echo $kode ?>')">Verifikasi</button>
-                        <?php }else {?> 
+                        <?php } else { ?>
                             <button class="btn btn-secondary btn-block" disabled>Sudah diverifikasi</button>
                         <?php } ?>
                     </div>
@@ -191,19 +212,23 @@
 <script src="<?php echo base_url('assets/js/bootstrap.min.js') ?>"></script>
 <script>
     var baseUrl = "<?php echo base_url() ?>";
-    function verifikasi(kode){
+
+    function verifikasi(kode) {
         bootbox.confirm("Apakah anda yakin ingin memverifikasi pesanan ini?", function(result) {
-            if(result){
+            if (result) {
                 // AJAX Request
                 $.ajax({
-                    url: baseUrl + 'admin/verifikasi/'+ kode,
+                    url: baseUrl + 'admin/verifikasi/' + kode,
                     type: 'POST',
-                    data: { kode:kode },
-                    success: function(response){
-                    // Removing row from HTML Table
-                        if(response != ""){
+                    data: {
+                        kode: kode
+                    },
+                    success: function(response) {
+                        // Removing row from HTML Table
+                        if (response != "") {
                             bootbox.alert('Berhasil diverifikasi');
-                        }else{
+                            location.reload();
+                        } else {
                             bootbox.alert('Gagal verifikasi');
                             location.reload();
                         }

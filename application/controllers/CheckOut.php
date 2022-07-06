@@ -61,10 +61,44 @@ class CheckOut extends CI_Controller {
             if($prosesPesanan){
                 $this->cart->destroy();
                 $status="benar";
+                echo json_encode($kode_pesanan);
             }
-            echo json_encode($status);
 			$data['getUser']    = $getUser;
         }
+    }
+
+    public function pembayaran($kode)
+    {
+        if(userLog()){
+			$idUser 	= $this->session->userdata('idLogin');
+			$getUser	= $this->M_user->getUser($idUser);
+            $data['getRekening']= $this->M_user->getAllRekening();
+			$data['getUser']    = $getUser;
+			$data['total']      = $this->M_user->getTotalByKode($kode);
+            $data['kode']       = $kode;
+		}
+		$data['getKategori'] = $this->M_user->getKategori();
+		$this->load->view('user/header');
+		$this->load->view('user/topbar', $data);
+		$this->load->view('user/pembayaran', $data);
+		$this->load->view('user/footer');
+    }
+
+    public function upload_bukti($kode)
+    {
+        if(userLog()){
+			$idUser 	= $this->session->userdata('idLogin');
+			$getUser	= $this->M_user->getUser($idUser);
+            $data['getRekening']= $this->M_user->getAllRekening();
+			$data['getUser']    = $getUser;
+			$data['total']      = $this->M_user->getTotalByKode($kode);
+            $data['kode']       = $kode;
+		}
+		$data['getKategori'] = $this->M_user->getKategori();
+		$this->load->view('user/header');
+		$this->load->view('user/topbar', $data);
+		$this->load->view('user/upload_bukti', $data);
+		$this->load->view('user/footer');
     }
 
 }

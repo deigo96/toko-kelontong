@@ -162,7 +162,7 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div> -->
-                                <button type="button" class="site-btn pesan">PESAN</button>
+                                <button type="button" class="site-btn pesan">LANJUT PEMBAYARAN</button>
                             </div>
                         </div>
                     </div>
@@ -171,7 +171,7 @@
         </div>
     </section>
     <!-- Checkout Section End -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="<?php echo base_url('assets/js/bootbox.min.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/bootstrap.min.js') ?>"></script>
 <script>
@@ -197,8 +197,15 @@
             // Delete id
             // Confirm box
             if((namaBelakang && namaDepan && alamat && kota && kabupaten && noTelp && email) != ""){
-                bootbox.confirm("Pastikan data yang anda isi benar", function(result) {
-                    if(result){
+                Swal.fire({
+                    icon: 'question',
+                    title: 'Apakah data anda sudah benar',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya',
+                    showCancelButton: 'Tidak'
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
                         // AJAX Request
                         $.ajax({
                             url: baseUrl + 'CheckOut/pesanBarang',
@@ -218,20 +225,13 @@
                             },
                             success: function(data){
                                 if(data != ""){
-                                    bootbox.alert({
-                                        message: "Kami akan mengirim pesanan sesuai alamat anda!",
-                                        title: "Pesanan Berhasil",
-                                        className: 'text-center',
-                                        callback: function(){
-                                            window.location.href = baseUrl + "home";
-                                        }
-                                    });
+                                    window.location.href = baseUrl + 'CheckOut/pembayaran/' + data  
                                 }else{
-                                    bootbox.alert({
-                                        message: "Mohon pesanan diulang kembali!",
-                                        title: "Pesanan Gagal",
-                                        className: 'text-center'
-                                    });
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Pesanan anda gagal diproses',
+                                    })
                                 }
                             // Removing row from HTML Table
                                 // if(response != ""){
@@ -247,9 +247,64 @@
                             }
                         });
                     }
-                });
+                })
+                // bootbox.confirm("Pastikan data yang anda isi benar", function(result) {
+                //     if(result){
+                //         // AJAX Request
+                //         $.ajax({
+                //             url: baseUrl + 'CheckOut/pesanBarang',
+                //             type: 'POST',
+                //             data: {
+                //                 'namaDepan': namaDepan,
+                //                 'namaBelakang': namaBelakang,
+                //                 'alamat': alamat,
+                //                 'kota': kota,
+                //                 'kabupaten': kabupaten,
+                //                 'noTelp': noTelp,
+                //                 'email': email,
+                //                 'catatan': catatan,
+                //                 'idProduk': idProduk,
+                //                 'harga': harga,
+                //                 'jumlah': jumlah
+                //             },
+                //             success: function(data){
+                //                 if(data != ""){
+                //                     bootbox.alert({
+                //                         message: "Kami akan mengirim pesanan sesuai alamat anda!",
+                //                         title: "Pesanan Berhasil",
+                //                         className: 'text-center',
+                //                         callback: function(){
+                //                             window.location.href = baseUrl + "home";
+                //                         }
+                //                     });
+                //                 }else{
+                //                     bootbox.alert({
+                //                         message: "Mohon pesanan diulang kembali!",
+                //                         title: "Pesanan Gagal",
+                //                         className: 'text-center'
+                //                     });
+                //                 }
+                //             // Removing row from HTML Table
+                //                 // if(response != ""){
+                //                 //     bootbox.alert('Barang berhasil dipesan');
+                //                 //     $(el).closest('tr').css('background','tomato');
+                //                 //     $(el).closest('tr').fadeOut(800,function(){
+                //                 //         $(this).remove();
+                //                 //     });
+                //                 // }else{
+                //                 //     bootbox.alert('Data Memesan Barang');
+                //                 //     location.reload();
+                //                 // }
+                //             }
+                //         });
+                //     }
+                // });
             }else{
-                bootbox.alert("Semua data harus diisi")
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Semua data harus diisi',
+                })
             }
         });
     });

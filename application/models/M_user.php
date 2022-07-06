@@ -70,11 +70,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
-                echo json_encode("Failed to Save Data");
+                echo json_encode("");
             } else {
                 $this->db->trans_commit();
                 $this->cart->destroy();
-                echo json_encode("Success!");
+                echo json_encode($filter_data['kode_pesanan']);
             }
         }
 
@@ -106,5 +106,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $this->db->where('id_login', $id);
             $query = $this->db->get('login');
             return $query->row();
+        }
+
+        public function getAllRekening()
+        {
+            $this->db->select('*');
+            return $this->db->get('rekening')->result();
+        }
+
+        public function getTotalByKode($kode)
+        {
+            $this->db->select('harga');
+            $this->db->where('kode_pesanan', $kode);
+            return $this->db->get('pesanan')->row();
+        }
+
+        public function getAllPesananUser($id)
+        {
+            $this->db->select('*');
+            $this->db->where('id_user', $id);
+            $this->db->group_by('kode_pesanan'); 
+            $this->db->order_by('kode_pesanan', 'desc');
+            return $this->db->get('pesanan')->result();
+        }
+
+        public function saveBuktiUpload($data, $kode)
+        {
+            $this->db->where('kode_pesanan', $kode);
+            return $this->db->update('pesanan', $data);
         }
     }

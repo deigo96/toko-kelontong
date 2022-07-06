@@ -65,7 +65,7 @@
     <script src="<?php echo base_url('assets/js/mixitup.min.js')?>"></script>
     <script src="<?php echo base_url('assets/js/owl.carousel.min.js')?>"></script>
     <script src="<?php echo base_url('assets/js/main.js')?>"></script>
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 </body>
